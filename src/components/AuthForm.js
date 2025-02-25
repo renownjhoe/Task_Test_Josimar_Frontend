@@ -64,15 +64,19 @@ const AuthForm = () => {
         navigate('/dashboard');
       }
     } catch (error) {
-      if (error.response && error.response.status === 422) {
+      if (typeof error === 'string') {
+        // If error is a string, show it as a general error
+        setErrors({ general: [error] });
+      } else if (error.response && error.response.status === 422) {
         setErrors(error.response.data.errors);
       } else {
         console.error('Login/Registration failed:', error);
         setErrors({ general: ['Something went wrong. Please try again.'] });
       }
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
+    
   };
 
 
@@ -153,6 +157,9 @@ const AuthForm = () => {
               )}
             </div>
           )}
+          {errors.general && errors.general.map((err, index) => (
+                <p key={index} className="text-red-600 text-center mb-4">{err}</p>
+          ))}
           <button
             type="submit"
             disabled={loading} // Disable the button when loading

@@ -16,10 +16,11 @@ const VerificationPage = () => {
     const fetchUserDetails = async () => {
       try {
         const response = await fetchUser();
-        setUser(response.user);
+        console.log(response);
+        setUser(response);
 
         // Redirect to dashboard if email is verified
-        if (response.user.email_verified_at) {
+        if (response.email_verified_at) {
           navigate('/dashboard');
         }
       } catch (error) {

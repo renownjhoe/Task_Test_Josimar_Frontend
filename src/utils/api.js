@@ -29,7 +29,7 @@ api.interceptors.response.use(
       // Token is invalid or expired
       localStorage.removeItem('token'); // Clear the token
       store.dispatch(logout()); // Dispatch logout action
-      window.location.href = '/login'; // Redirect to login page
+      window.location.href = '/'; // Redirect to login page
     }
     return Promise.reject(error);
   }

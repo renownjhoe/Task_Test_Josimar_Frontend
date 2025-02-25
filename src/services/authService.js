@@ -13,14 +13,24 @@ export const register = async (userData) => {
 };
 
 export const login = async (userData) => {
-  const response = await axios.post(`${API_URL}/login`, userData);
-  const { token } = response.data; // Assuming the token is returned in the response
+  try {
+    const response = await axios.post(`${API_URL}/login`, userData);
+    const { token } = response.data; // Assuming the token is returned in the response
 
-  // Store the token in local storage
-  localStorage.setItem('token', token);
+    // Store the token in local storage
+    localStorage.setItem('token', token);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // Extract the error message from the response, or use a default message
+    const errorMsg = error.response?.data?.error || 'Login failed';
+    // You can either throw the error or return a rejected promise
+    return Promise.reject(errorMsg);
+  }
 };
+
+
 
 export const fetchUser = async () => {
   const response = await api.get('/user'); // Use the api instance
